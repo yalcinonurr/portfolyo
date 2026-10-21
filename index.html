@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080b18">
+  <meta name="description" content="Onur'un yazılım geliştirme portfolyosu. Projeler, teknolojiler ve öğrenme yolculuğu.">
+  <title>Onur | Yazılım Geliştirme Portfolyosu</title>
+  <style>
+    :root {
+      --bg: #080b18;
+      --bg-soft: #0e1328;
+      --panel: rgba(18, 24, 48, .72);
+      --line: rgba(155, 171, 255, .17);
+      --text: #f3f5ff;
+      --muted: #a6afcf;
+      --blue: #54d8ff;
+      --purple: #9b6bff;
+      --pink: #e879f9;
+      --radius: 22px;
+      --max: 1120px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+    body {
+      margin: 0; color: var(--text); background: var(--bg);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.65; overflow-x: hidden;
+    }
+    body::before {
+      content: ""; position: fixed; inset: 0; z-index: -3; pointer-events: none;
+      background:
+        radial-gradient(ellipse at 12% 8%, rgba(72, 99, 255, .19), transparent 35%),
+        radial-gradient(ellipse at 86% 25%, rgba(160, 65, 255, .15), transparent 34%),
+        radial-gradient(ellipse at 55% 90%, rgba(20, 190, 255, .09), transparent 38%),
+        var(--bg);
+    }
+    #stars { position: fixed; inset: 0; z-index: -2; pointer-events: none; opacity: .75; }
+    a { color: inherit; text-decoration: none; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    button { font: inherit; }
+    .container { width: min(var(--max), calc(100% - 40px)); margin-inline: auto; }
+    .nav-wrap { position: fixed; inset: 14px 0 auto; z-index: 20; }
+    .nav {
+      display: flex; align-items: center; justify-content: space-between; gap: 18px;
+      padding: 11px 14px 11px 20px; border: 1px solid var(--line); border-radius: 18px;
+      background: rgba(8, 11, 24, .76); backdrop-filter: blur(18px);
+      box-shadow: 0 12px 45px rgba(0,0,0,.18);
+    }
+    .brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 800; letter-spacing: -.03em; }
+    .brand-mark {
+      display: grid; place-items: center; width: 34px; height: 34px; border-radius: 11px;
+      color: #080b18; background: linear-gradient(135deg, var(--blue), var(--purple));
+      box-shadow: 0 0 24px rgba(84,216,255,.28); font-size: .85rem;
+    }
+    .nav-links { display: flex; align-items: center; gap: 5px; }
+    .nav-links a { color: var(--muted); padding: 9px 12px; font-size: .88rem; border-radius: 10px; transition: .25s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--text); background: rgba(140,153,255,.12); }
+    .menu-toggle { display: none; color: var(--text); background: transparent; border: 1px solid var(--line); border-radius: 10px; padding: 8px 11px; cursor: pointer; }
+    .hero { min-height: 100svh; display: grid; align-items: center; padding: 150px 0 80px; position: relative; }
+    .hero-grid { display: grid; grid-template-columns: 1.25fr .75fr; align-items: center; gap: 54px; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 9px; padding: 7px 12px;
+      border: 1px solid rgba(84,216,255,.24); border-radius: 99px;
+      background: rgba(84,216,255,.06); color: #a8edff; font-size: .82rem; font-weight: 650;
+    }
+    .pulse { width: 7px; height: 7px; border-radius: 50%; background: #62f6bd; box-shadow: 0 0 12px #62f6bd; animation: pulse 1.8s infinite; }
+    h1 { margin: 22px 0 18px; font-size: clamp(3.1rem, 8vw, 6.4rem); line-height: .98; letter-spacing: -.075em; }
+    .gradient-text { background: linear-gradient(100deg, var(--blue), #9d9bff 48%, var(--pink)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .hero p { max-width: 620px; color: var(--muted); font-size: clamp(1rem, 1.6vw, 1.16rem); }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+    .btn { display: inline-flex; justify-content: center; align-items: center; gap: 9px; padding: 12px 17px; border-radius: 13px; font-weight: 750; font-size: .92rem; border: 1px solid var(--line); transition: transform .25s, box-shadow .25s, border-color .25s; cursor: pointer; }
+    .btn:hover { transform: translateY(-3px); border-color: rgba(84,216,255,.5); }
+    .btn-primary { color: #07101c; background: linear-gradient(105deg, var(--blue), #a8a1ff); border: 0; box-shadow: 0 8px 30px rgba(84,216,255,.18); }
+    .btn-secondary { background: rgba(255,255,255,.035); }
+    .hero-meta { display: flex; gap: 22px; flex-wrap: wrap; margin-top: 34px; color: var(--muted); font-size: .85rem; }
+    .hero-meta span { display: inline-flex; gap: 7px; align-items: center; }
+    .hero-meta b { color: var(--text); font-weight: 650; }
+    .orbit-card { min-height: 390px; display: grid; place-items: center; position: relative; }
+    .orbital { width: min(330px, 75vw); aspect-ratio: 1; border: 1px solid rgba(143,155,255,.22); border-radius: 50%; display: grid; place-items: center; position: relative; animation: float 7s ease-in-out infinite; }
+    .orbital::before, .orbital::after { content: ""; position: absolute; border: 1px solid rgba(84,216,255,.17); border-radius: 50%; inset: 25px; transform: rotateX(62deg) rotate(-24deg); }
+    .orbital::after { inset: -15px; transform: rotateX(65deg) rotate(38deg); border-color: rgba(192,112,255,.18); }
+    .core {
+      width: 155px; height: 155px; border-radius: 40px; transform: rotate(-8deg);
+      display: grid; place-items: center; font-size: 3.5rem; font-weight: 900; letter-spacing: -.1em;
+      color: white; background: linear-gradient(145deg, rgba(84,216,255,.2), rgba(155,107,255,.3));
+      border: 1px solid rgba(200,210,255,.35); box-shadow: 0 0 70px rgba(108,94,255,.27), inset 0 0 35px rgba(84,216,255,.09);
+    }
+    .float-tag { position: absolute; padding: 8px 12px; border: 1px solid var(--line); border-radius: 12px; background: rgba(13,18,39,.88); color: #dce3ff; font-size: .8rem; box-shadow: 0 8px 30px #0003; animation: float 5s ease-in-out infinite; }
+    .tag-one { top: 14%; left: 0; } .tag-two { top: 23%; right: -1%; animation-delay: -1.5s; } .tag-three { bottom: 16%; left: 4%; animation-delay: -2.5s; } .tag-four { bottom: 9%; right: 2%; animation-delay: -3.5s; }
+    section { padding: 95px 0; position: relative; }
+    .section-head { max-width: 680px; margin-bottom: 38px; }
+    .section-kicker { color: var(--blue); font-size: .78rem; font-weight: 850; letter-spacing: .16em; text-transform: uppercase; }
+    h2 { margin: 8px 0 12px; font-size: clamp(2rem, 4.5vw, 3.2rem); line-height: 1.1; letter-spacing: -.055em; }
+    .section-head p { margin: 0; color: var(--muted); }
+    .glass { border: 1px solid var(--line); background: linear-gradient(145deg, rgba(21,28,56,.78), rgba(12,16,34,.72)); backdrop-filter: blur(12px); border-radius: var(--radius); }
+    .about-grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: 20px; }
+    .about-copy { padding: 28px; }
+    .about-copy p { margin-top: 0; color: var(--muted); }
+    .about-copy p:last-child { margin-bottom: 0; }
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .info-card { padding: 20px; min-height: 125px; }
+    .info-card .icon { font-size: 1.3rem; margin-bottom: 8px; }
+    .info-card small { color: var(--muted); display: block; }
+    .info-card strong { display: block; margin-top: 3px; }
+    .tech-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 13px; }
+    .tech-card { padding: 21px 12px; text-align: center; transition: .25s; }
+    .tech-card:hover { transform: translateY(-5px); border-color: rgba(84,216,255,.45); box-shadow: 0 12px 36px rgba(54,107,255,.1); }
+    .tech-icon { font-size: 1.6rem; margin-bottom: 8px; }
+    .tech-card strong { display: block; font-size: .92rem; }
+    .tech-card small { color: var(--muted); font-size: .75rem; }
+    .project-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+    .project-card { overflow: hidden; transition: transform .3s, border-color .3s; }
+    .project-card:hover { transform: translateY(-6px); border-color: rgba(155,107,255,.5); }
+    .project-visual { height: 180px; display: grid; place-items: center; position: relative; overflow: hidden; background: radial-gradient(circle at 30% 30%, rgba(84,216,255,.25), transparent 35%), linear-gradient(135deg, #131c3b, #21163e); }
+    .project-visual::before { content: ""; position: absolute; width: 190px; height: 190px; border: 1px solid rgba(172,189,255,.3); border-radius: 38%; transform: rotate(35deg); animation: spin 24s linear infinite; }
+    .project-visual::after { content: ""; position: absolute; width: 130px; height: 130px; border: 1px solid rgba(84,216,255,.3); border-radius: 50%; }
+    .project-symbol { z-index: 1; font-size: 3rem; filter: drop-shadow(0 0 18px rgba(84,216,255,.6)); }
+    .project-content { padding: 24px; }
+    .project-top { display: flex; justify-content: space-between; align-items: start; gap: 12px; }
+    .project-content h3 { margin: 0; font-size: 1.25rem; letter-spacing: -.025em; }
+    .status { white-space: nowrap; font-size: .7rem; padding: 5px 8px; color: #b8f9df; background: rgba(67,220,164,.1); border: 1px solid rgba(67,220,164,.2); border-radius: 99px; }
+    .project-content p { color: var(--muted); font-size: .92rem; }
+    .chips { display: flex; flex-wrap: wrap; gap: 7px; margin: 17px 0 20px; }
+    .chip { font-size: .74rem; color: #c9d5ff; border: 1px solid rgba(155,171,255,.18); background: rgba(155,171,255,.07); padding: 5px 9px; border-radius: 8px; }
+    .text-link { display: inline-flex; align-items: center; gap: 7px; color: var(--blue); font-size: .88rem; font-weight: 750; }
+    .text-link:hover { color: white; }
+    .timeline { border-left: 1px solid rgba(84,216,255,.3); margin-left: 9px; padding-left: 28px; display: grid; gap: 20px; }
+    .timeline-item { position: relative; padding: 22px 24px; }
+    .timeline-item::before { content: ""; position: absolute; left: -35px; top: 27px; width: 12px; height: 12px; border-radius: 50%; background: var(--blue); box-shadow: 0 0 16px rgba(84,216,255,.65); }
+    .timeline-item small { color: var(--blue); font-weight: 750; }
+    .timeline-item h3 { margin: 5px 0; }
+    .timeline-item p { color: var(--muted); margin: 0; }
+    .certificate-panel { padding: 28px; display: flex; align-items: flex-start; gap: 18px; }
+    .certificate-icon { flex: 0 0 54px; width: 54px; height: 54px; display: grid; place-items: center; border-radius: 16px; background: rgba(155,107,255,.14); font-size: 1.5rem; }
+    .certificate-panel h3 { margin: 0 0 6px; }
+    .certificate-panel p { margin: 0; color: var(--muted); }
+    .contact-grid { display: grid; grid-template-columns: .85fr 1.15fr; gap: 22px; }
+    .contact-copy, .contact-card { padding: 28px; }
+    .contact-copy p { color: var(--muted); }
+    .contact-list { display: grid; gap: 12px; margin-top: 22px; }
+    .contact-item { display: flex; align-items: center; gap: 12px; color: var(--muted); }
+    .contact-item span:first-child { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 12px; background: rgba(84,216,255,.08); color: var(--blue); }
+    .contact-item a:hover { color: var(--blue); }
+    .form-row { display: grid; gap: 7px; margin-bottom: 15px; }
+    label { color: #dce3ff; font-size: .86rem; font-weight: 650; }
+    input, textarea { width: 100%; color: var(--text); background: rgba(4,8,22,.55); border: 1px solid var(--line); border-radius: 12px; padding: 12px 13px; font: inherit; outline: none; transition: border-color .2s, box-shadow .2s; }
+    input:focus, textarea:focus { border-color: rgba(84,216,255,.6); box-shadow: 0 0 0 3px rgba(84,216,255,.08); }
+    textarea { min-height: 110px; resize: vertical; }
+    .form-note { color: var(--muted); font-size: .78rem; margin: 12px 0 0; }
+    footer { border-top: 1px solid var(--line); padding: 25px 0 35px; color: var(--muted); font-size: .85rem; }
+    .footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 18px; }
+    .back-top { color: var(--blue); }
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .cursor-glow { position: fixed; width: 260px; height: 260px; border-radius: 50%; pointer-events: none; z-index: -1; background: radial-gradient(circle, rgba(102,104,255,.08), transparent 68%); transform: translate(-50%,-50%); }
+    @keyframes pulse { 50% { opacity: .45; transform: scale(.8); } }
+    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+    @keyframes spin { to { transform: rotate(395deg); } }
+    @media (max-width: 850px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 18px; }
+      .hero { padding-top: 135px; }
+      .orbit-card { min-height: 330px; }
+      .orbital { width: 270px; }
+      .about-grid, .contact-grid { grid-template-columns: 1fr; }
+      .tech-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 640px) {
+      .container { width: min(100% - 28px, var(--max)); }
+      .nav-wrap { inset: 8px 0 auto; }
+      .nav { padding: 9px 10px 9px 13px; }
+      .menu-toggle { display: inline-flex; }
+      .nav-links { display: none; position: absolute; top: calc(100% + 8px); left: 14px; right: 14px; padding: 10px; flex-direction: column; align-items: stretch; background: rgba(8,11,24,.96); border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 20px 40px #0006; }
+      .nav-links.open { display: flex; }
+      .nav-links a { padding: 11px 12px; }
+      h1 { font-size: clamp(3.2rem, 17vw, 5rem); }
+      section { padding: 72px 0; }
+      .hero { min-height: auto; padding-bottom: 55px; }
+      .hero-meta { gap: 12px 18px; }
+      .project-grid { grid-template-columns: 1fr; }
+      .tech-grid { grid-template-columns: repeat(2, 1fr); }
+      .about-copy, .info-card, .project-content, .contact-copy, .contact-card { padding: 21px; }
+      .info-grid { gap: 10px; }
+      .info-card { min-height: 112px; }
+      .certificate-panel { padding: 21px; }
+      .footer-inner { flex-direction: column; align-items: flex-start; }
+      .float-tag { font-size: .72rem; }
+      .tag-two { right: -5px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="stars" aria-hidden="true"></canvas>
+  <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+
+  <div class="nav-wrap">
+    <nav class="nav container" aria-label="Ana menü">
+      <a class="brand" href="#anasayfa" aria-label="Onur ana sayfa">
+        <span class="brand-mark">&lt;/&gt;</span><span>onur<span class="gradient-text">.dev</span></span>
+      </a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Menüyü aç veya kapat" aria-expanded="false">☰</button>
+      <div class="nav-links" id="navLinks">
+        <a href="#hakkimda">Hakkımda</a>
+        <a href="#teknolojiler">Teknolojiler</a>
+        <a href="#projeler">Projeler</a>
+        <a href="#egitim">Eğitim</a>
+        <a href="#sertifikalar">Sertifikalar</a>
+        <a href="#iletisim">İletişim</a>
+      </div>
+    </nav>
+  </div>
+
+  <main>
+    <section class="hero" id="anasayfa">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="pulse"></span> Yazılım geliştirme yolculuğum</div>
+          <h1>Merhaba,<br>ben <span class="gradient-text">Onur.</span></h1>
+          <p>Fikirleri çalışan projelere dönüştürmeyi öğreniyorum. Web teknolojileri, uygulama geliştirme ve veritabanlarıyla kendimi geliştiriyor; her projede yeni bir şey keşfediyorum.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#projeler">Projelerimi keşfet <span>↗</span></a>
+            <a class="btn btn-secondary" href="#iletisim">Benimle iletişime geç</a>
+          </div>
+          <div class="hero-meta">
+            <span>⌘ <b>HTML · CSS · JavaScript</b></span>
+            <span>⌁ <b>C# · MySQL</b></span>
+            <span>✦ <b>Öğrenmeye açık</b></span>
+          </div>
+        </div>
+        <div class="orbit-card" aria-label="Yazılım temalı animasyonlu görsel">
+          <div class="orbital">
+            <div class="core">&lt;/&gt;</div>
+            <span class="float-tag tag-one">HTML / CSS</span>
+            <span class="float-tag tag-two">JavaScript</span>
+            <span class="float-tag tag-three">C#</span>
+            <span class="float-tag tag-four">MySQL</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="hakkimda">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="section-kicker">01 / Hakkımda</span>
+          <h2>Merakla öğreniyor,<br><span class="gradient-text">üreterek gelişiyorum.</span></h2>
+          <p>Yazılım dünyasında kendi yolumu oluşturuyorum.</p>
+        </div>
+        <div class="about-grid">
+          <article class="glass about-copy reveal">
+            <p>Merhaba, ben Onur. Bilişim alanında eğitim alıyor ve yazılım geliştirme becerilerimi gerçek projeler üzerinde ilerletiyorum. Web sayfaları hazırlamak, uygulamaların çalışma mantığını anlamak ve veritabanlarıyla çalışmak ilgimi çekiyor.</p>
+            <p>Bu portfolyo, üzerinde çalıştığım projeleri ve öğrenme yolculuğumu paylaşmak için hazırlandı. Yeni çalışmalar yaptıkça burayı güncelleyeceğim.</p>
+          </article>
+          <div class="info-grid">
+            <article class="glass info-card reveal"><div class="icon">🎓</div><small>Eğitim</small><strong>Kıraç MTAL</strong><small>Bilişim Bölümü</small></article>
+            <article class="glass info-card reveal"><div class="icon">💻</div><small>Odak alanı</small><strong>Yazılım</strong><small>Uygulama ve web geliştirme</small></article>
+            <article class="glass info-card reveal"><div class="icon">🚀</div><small>Şu an</small><strong>Proje geliştiriyorum</strong><small>Deneyerek öğreniyorum</small></article>
+            <article class="glass info-card reveal"><div class="icon">🌌</div><small>Hedefim</small><strong>İlerlemek</strong><small>Her projede yeni beceri</small></article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="teknolojiler">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="section-kicker">02 / Teknolojiler</span>
+          <h2>Kullandığım <span class="gradient-text">araçlar.</span></h2>
+          <p>Bu bölüm, üzerinde çalıştığım teknolojileri gösterir. Deneyim seviyelerini olduğundan fazla göstermemek için puanlama eklemedim.</p>
+        </div>
+        <div class="tech-grid">
+          <article class="glass tech-card reveal"><div class="tech-icon">🌐</div><strong>HTML</strong><small>Sayfa yapısı</small></article>
+          <article class="glass tech-card reveal"><div class="tech-icon">🎨</div><strong>CSS</strong><small>Stil ve tasarım</small></article>
+          <article class="glass tech-card reveal"><div class="tech-icon">⚡</div><strong>JavaScript</strong><small>Etkileşim</small></article>
+          <article class="glass tech-card reveal"><div class="tech-icon">♯</div><strong>C#</strong><small>Uygulama geliştirme</small></article>
+          <article class="glass tech-card reveal"><div class="tech-icon">🗄️</div><strong>MySQL</strong><small>Veritabanı</small></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="projeler">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="section-kicker">03 / Seçili çalışmalar</span>
+          <h2>Fikirden <span class="gradient-text">projeye.</span></h2>
+          <p>Üzerinde çalıştığım projeler. Bağlantıları, GitHub depolarını oluşturduktan sonra aşağıdaki yer tutuculara ekleyebilirsin.</p>
+        </div>
+        <div class="project-grid">
+          <article class="glass project-card reveal">
+            <div class="project-visual"><div class="project-symbol">🎮</div></div>
+            <div class="project-content">
+              <div class="project-top"><h3>HTML Oyunu</h3><span class="status">Web projesi</span></div>
+              <p>Tarayıcıda çalışacak şekilde hazırladığım oyun projesi. HTML tabanlı projeleri yayımlamayı ve GitHub Pages kullanmayı öğreniyorum.</p>
+              <div class="chips"><span class="chip">HTML</span><span class="chip">CSS</span><span class="chip">JavaScript</span></div>
+              <!-- Aşağıdaki # bağlantısını oyununun GitHub Pages adresiyle değiştir. -->
+              <a class="text-link project-link" href="#" data-placeholder="Oyun linki eklenmedi">Oyunu görüntüle <span>↗</span></a>
+            </div>
+          </article>
+          <article class="glass project-card reveal">
+            <div class="project-visual"><div class="project-symbol">🛒</div></div>
+            <div class="project-content">
+              <div class="project-top"><h3>Market Satış Otomasyonu</h3><span class="status">Masaüstü uygulaması</span></div>
+              <p>Ürün, kategori, müşteri ve satış bilgilerini yönetmeye yönelik geliştirme aşamasındaki otomasyon projesi.</p>
+              <div class="chips"><span class="chip">C#</span><span class="chip">Visual Studio</span><span class="chip">MySQL</span></div>
+              <!-- # yerine bu projenin GitHub depo adresini ekle. -->
+              <a class="text-link project-link" href="#" data-placeholder="Proje deposu linki eklenmedi">Projeyi görüntüle <span>↗</span></a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="egitim">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="section-kicker">04 / Eğitim</span>
+          <h2>Öğrenme <span class="gradient-text">yolculuğum.</span></h2>
+          <p>Eğitim bilgilerim ve yazılım alanındaki gelişimim.</p>
+        </div>
+        <div class="timeline">
+          <article class="glass timeline-item reveal">
+            <small>Mevcut eğitim</small>
+            <h3>Kıraç Mesleki ve Teknik Anadolu Lisesi</h3>
+            <p>Bilişim Bölümü</p>
+          </article>
+          <article class="glass timeline-item reveal">
+            <small>Kişisel gelişim</small>
+            <h3>Uygulamalı yazılım çalışmaları</h3>
+            <p>HTML tabanlı oyun ve C# / MySQL ile otomasyon projeleri üzerinde çalışıyorum. Yeni çalışmalarımı burada paylaşacağım.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="sertifikalar">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="section-kicker">05 / Sertifikalar</span>
+          <h2>Gelişimimi <span class="gradient-text">belgeliyorum.</span></h2>
+          <p>Yeni sertifikalar aldığımda burada görüntülenecek.</p>
+        </div>
+        <div class="glass certificate-panel reveal">
+          <div class="certificate-icon">🏅</div>
+          <div>
+            <h3>Henüz eklenecek sertifika yok</h3>
+            <p>Şu an listelenecek bir sertifikam bulunmuyor. Sertifika edindiğinde adını, veren kurumu, tarihi vesaire burada paylaşacağım.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="iletisim">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="section-kicker">06 / İletişim</span>
+          <h2>Bir şeyler <span class="gradient-text">üretelim.</span></h2>
+          <p>Projeler, fikirler veya yazılım üzerine konuşmak için benimle bağlantı kurabilirsin.</p>
+        </div>
+        <div class="contact-grid">
+          <div class="glass contact-copy reveal">
+            <h3>Bağlantıda kalalım</h3>
+            <p>GitHub profil bağlantını ekle; böylece ziyaretçiler diğer projelerini de keşfedebilir.</p>
+            <div class="contact-list">
+              <div class="contact-item"><span>⌘</span><a class="profile-link" href="#" data-placeholder="GitHub kullanıcı adını ekle">GitHub profilim ↗</a></div>
+              <div class="contact-item"><span>✉</span><a class="email-link" href="#" data-placeholder="E-posta adresini ekle">E-posta adresi ekle</a></div>
+            </div>
+          </div>
+          <form class="glass contact-card reveal" id="contactForm">
+            <div class="form-row"><label for="senderName">Adın</label><input id="senderName" name="senderName" placeholder="Adını yaz" required></div>
+            <div class="form-row"><label for="senderEmail">E-posta adresin</label><input id="senderEmail" name="senderEmail" type="email" placeholder="ornek@eposta.com" required></div>
+            <div class="form-row"><label for="senderMessage">Mesajın</label><textarea id="senderMessage" name="senderMessage" placeholder="Mesajını yaz..." required></textarea></div>
+            <button class="btn btn-primary" type="submit">E-posta uygulamasında aç ↗</button>
+            <p class="form-note">Bu form bir sunucuya veri göndermez; cihazındaki e-posta uygulamasını açmayı dener. Çalışması için aşağıdaki JavaScript'te e-posta adresini eklemelisin.</p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <span>© <span id="year"></span> Onur · Öğrenerek, deneyerek, üreterek.</span>
+      <a class="back-top" href="#anasayfa">Başa dön ↑</a>
+    </div>
+  </footer>
+
+  <script>
+    // KİŞİSELLEŞTİRME: Aşağıdaki değerleri kendi bağlantılarınla güncelle.
+    const CONFIG = {
+      githubUrl: "", // Örnek: "https://github.com/kullaniciadin"
+      email: "",     // Örnek: "onur@example.com"
+      gameUrl: "https://yalcinonurr.github.io/bo-az-sava-oyunu/",   // HTML oyununun GitHub Pages adresi
+      marketUrl: "https://github.com/yalcinonurr/market-satis"  // Market projesinin GitHub depo adresi
+    };
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Mobil menü
+    const menuToggle = document.getElementById("menuToggle");
+    const navLinks = document.getElementById("navLinks");
+    menuToggle.addEventListener("click", () => {
+      const isOpen = navLinks.classList.toggle("open");
+      menuToggle.setAttribute("aria-expanded", String(isOpen));
+      menuToggle.textContent = isOpen ? "✕" : "☰";
+    });
+    navLinks.querySelectorAll("a").forEach(link => link.addEventListener("click", () => {
+      navLinks.classList.remove("open");
+      menuToggle.setAttribute("aria-expanded", "false");
+      menuToggle.textContent = "☰";
+    }));
+
+    // Kaydırma ile bölümleri yumuşak biçimde göster
+    const revealItems = document.querySelectorAll(".reveal");
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      revealItems.forEach(item => observer.observe(item));
+    } else {
+      revealItems.forEach(item => item.classList.add("visible"));
+    }
+
+    // Aktif gezinme bağlantısı
+    const sections = document.querySelectorAll("main section[id]");
+    if ("IntersectionObserver" in window) {
+      const sectionObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            navLinks.querySelectorAll("a").forEach(a => {
+              a.classList.toggle("active", a.getAttribute("href") === "#" + entry.target.id);
+            });
+          }
+        });
+      }, { rootMargin: "-35% 0px -55% 0px" });
+      sections.forEach(section => sectionObserver.observe(section));
+    }
+
+    // Yıldız/parçacık arka planı
+    const canvas = document.getElementById("stars");
+    const ctx = canvas.getContext("2d");
+    let stars = [];
+    let width = 0, height = 0, animationFrame;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    function resizeCanvas() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      canvas.style.width = width + "px";
+      canvas.style.height = height + "px";
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const count = Math.min(100, Math.floor(width * height / 11000));
+      stars = Array.from({ length: count }, () => ({
+        x: Math.random() * width, y: Math.random() * height,
+        r: Math.random() * 1.5 + .3, speed: Math.random() * .22 + .04,
+        alpha: Math.random() * .55 + .15
+      }));
+      drawStars(false);
+    }
+    function drawStars(move = true) {
+      ctx.clearRect(0, 0, width, height);
+      stars.forEach(star => {
+        if (move && !reducedMotion) {
+          star.y -= star.speed;
+          if (star.y < -4) { star.y = height + 4; star.x = Math.random() * width; }
+        }
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(177, 200, 255, ${star.alpha})`;
+        ctx.fill();
+      });
+      if (!reducedMotion) animationFrame = requestAnimationFrame(() => drawStars(true));
+    }
+    window.addEventListener("resize", () => {
+      cancelAnimationFrame(animationFrame);
+      resizeCanvas();
+    });
+    resizeCanvas();
+
+    // Fare ışığı: yalnızca fare kullanabilen cihazlarda
+    const glow = document.getElementById("cursorGlow");
+    if (window.matchMedia("(pointer: fine)").matches && !reducedMotion) {
+      window.addEventListener("pointermove", event => {
+        glow.style.left = event.clientX + "px";
+        glow.style.top = event.clientY + "px";
+      }, { passive: true });
+    } else {
+      glow.style.display = "none";
+    }
+
+    // Proje ve profil bağlantıları: CONFIG alanı boşsa yer tutucu uyarısı göster.
+    function configureLink(selector, url, fallbackText) {
+      document.querySelectorAll(selector).forEach(link => {
+        if (url && /^https?:\/\//i.test(url)) {
+          link.href = url;
+          if (link.classList.contains("project-link")) {
+            link.target = "_blank";
+            link.rel = "noopener noreferrer";
+          }
+        } else {
+          link.href = "#";
+          link.addEventListener("click", event => {
+            event.preventDefault();
+            alert(fallbackText);
+          });
+        }
+      });
+    }
+    configureLink(".profile-link", CONFIG.githubUrl, "GitHub profil adresini eklemek için dosyanın altındaki CONFIG.githubUrl alanını düzenle.");
+    configureLink(".email-link", CONFIG.email ? "mailto:" + CONFIG.email : "", "E-posta adresini eklemek için dosyanın altındaki CONFIG.email alanını düzenle.");
+    // İkinci proje kartındaki bağlantıyı ayrıca seç.
+    const projectLinks = document.querySelectorAll(".project-link");
+    if (projectLinks[0]) configureLinkElement(projectLinks[0], CONFIG.gameUrl, "Oyun bağlantısını CONFIG.gameUrl alanına ekle.");
+    if (projectLinks[1]) configureLinkElement(projectLinks[1], CONFIG.marketUrl, "Market projesinin depo bağlantısını CONFIG.marketUrl alanına ekle.");
+    function configureLinkElement(link, url, message) {
+      link.href = url && /^https?:\/\//i.test(url) ? url : "#";
+      if (url && /^https?:\/\//i.test(url)) {
+        link.target = "_blank"; link.rel = "noopener noreferrer";
+      } else {
+        link.addEventListener("click", event => { event.preventDefault(); alert(message); });
+      }
+    }
+
+    // Basit iletişim formu: mailto kullanır; backend gerektirmez.
+    document.getElementById("contactForm").addEventListener("submit", event => {
+      event.preventDefault();
+      if (!CONFIG.email) {
+        alert("Önce dosyanın altındaki CONFIG.email alanına e-posta adresini eklemelisin.");
+        return;
+      }
+      const name = document.getElementById("senderName").value.trim();
+      const senderEmail = document.getElementById("senderEmail").value.trim();
+      const message = document.getElementById("senderMessage").value.trim();
+      const subject = encodeURIComponent("Portfolyo sitesi üzerinden mesaj - " + name);
+      const body = encodeURIComponent("Gönderen: " + name + "\nE-posta: " + senderEmail + "\n\n" + message);
+      window.location.href = "mailto:" + CONFIG.email + "?subject=" + subject + "&body=" + body;
+    });
+  </script>
+</body>
+</html>
